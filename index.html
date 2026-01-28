@@ -6,13 +6,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Support Buddy">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#667eea">
     
-    <!-- iPad/iPhone Icons -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23667eea' width='100' height='100'/><text y='70' x='50' text-anchor='middle' font-size='60' fill='white'>🤝</text></svg>">
     
-    <title>Student Support Buddy - Your Safe Space</title>
+    <title>Student Support Buddy</title>
     <style>
         * {
             margin: 0;
@@ -22,20 +20,17 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            touch-action: pan-y;
         }
 
         .container {
             background: white;
-            border-radius: 0;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             max-width: 100%;
             width: 100%;
             height: 100vh;
@@ -44,102 +39,78 @@
             flex-direction: column;
         }
 
-        /* Desktop/Tablet layout */
         @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
+            body { padding: 20px; }
             .container {
                 border-radius: 20px;
-                max-width: 800px;
+                max-width: 900px;
                 height: 90vh;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             }
         }
 
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
+            padding: 15px 20px;
             text-align: center;
-            flex-shrink: 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            font-size: 20px;
+            margin-bottom: 3px;
         }
 
         .header p {
-            font-size: 13px;
+            font-size: 12px;
             opacity: 0.9;
         }
 
-        .install-banner {
-            background: #fff3cd;
-            color: #856404;
-            padding: 12px;
-            text-align: center;
-            font-size: 13px;
-            border-bottom: 1px solid #ffeaa7;
-            display: none;
-        }
-
-        .install-banner button {
-            background: #856404;
+        .new-chat-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
             color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 15px;
-            margin-left: 10px;
+            border: 2px solid white;
+            padding: 8px 15px;
+            border-radius: 20px;
             cursor: pointer;
+            font-size: 11px;
             font-weight: 600;
         }
 
         .chat-area {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
             background: #f5f5f5;
             -webkit-overflow-scrolling: touch;
         }
 
         .message {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             animation: slideIn 0.3s ease;
         }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.bot {
-            justify-content: flex-start;
-        }
-
-        .message.user {
-            justify-content: flex-end;
-        }
+        .message.bot { justify-content: flex-start; }
+        .message.user { justify-content: flex-end; }
 
         .message-bubble {
-            max-width: 75%;
-            padding: 12px 18px;
-            border-radius: 18px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
             word-wrap: break-word;
-            font-size: 15px;
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         .message.bot .message-bubble {
@@ -154,13 +125,18 @@
             border-bottom-right-radius: 4px;
         }
 
+        .message.bot .message-bubble a {
+            color: #d32f2f;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid #d32f2f;
+        }
+
         .sample-questions {
             padding: 12px 15px;
             background: #f9f9f9;
             border-top: 1px solid #e0e0e0;
             flex-shrink: 0;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .sample-questions h3 {
@@ -171,54 +147,60 @@
         }
 
         .questions-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 5px;
+            max-height: 120px;
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
 
+        @media (max-width: 768px) {
+            .questions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         .sample-question {
-            padding: 10px 15px;
+            padding: 10px 12px;
             background: white;
             border: 2px solid #e0e0e0;
             border-radius: 15px;
             cursor: pointer;
             font-size: 13px;
             text-align: center;
-            transition: all 0.3s;
             color: #555;
+            transition: all 0.3s;
             white-space: nowrap;
-            flex-shrink: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .sample-question:active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea;
             color: white;
             border-color: #667eea;
             transform: scale(0.95);
         }
 
         .input-area {
-            padding: 15px;
+            padding: 12px;
             background: white;
             border-top: 1px solid #e0e0e0;
-            flex-shrink: 0;
         }
 
         .input-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         #userInput {
             flex: 1;
-            padding: 12px 15px;
+            padding: 10px 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 16px;
+            border-radius: 20px;
+            font-size: 14px;
             outline: none;
-            transition: border-color 0.3s;
         }
 
         #userInput:focus {
@@ -226,14 +208,12 @@
         }
 
         .btn {
-            padding: 12px 25px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            transition: all 0.3s;
-            -webkit-appearance: none;
         }
 
         .btn-send {
@@ -241,40 +221,24 @@
             color: white;
         }
 
-        .btn-send:active {
-            transform: scale(0.95);
-        }
-
         .voice-controls {
-            padding: 12px 15px;
+            padding: 10px;
             background: white;
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             border-top: 1px solid #e0e0e0;
-            flex-shrink: 0;
         }
 
         .btn-voice {
-            padding: 10px 18px;
+            padding: 8px 15px;
             border: 2px solid #667eea;
             background: white;
             color: #667eea;
-            border-radius: 20px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            -webkit-appearance: none;
-        }
-
-        .btn-voice:active {
-            background: #667eea;
-            color: white;
-            transform: scale(0.95);
         }
 
         .btn-voice.active {
@@ -282,59 +246,21 @@
             color: white;
         }
 
-        .storage-info {
-            padding: 10px 15px;
-            background: #e8f5e9;
-            border-top: 1px solid #c8e6c9;
-            text-align: center;
-            font-size: 12px;
-            color: #2e7d32;
-            flex-shrink: 0;
-        }
-
-        .storage-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn-storage {
-            padding: 6px 12px;
-            border: 1px solid #4caf50;
-            background: white;
-            color: #4caf50;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 600;
-            transition: all 0.3s;
-            -webkit-appearance: none;
-        }
-
-        .btn-storage:active {
-            background: #4caf50;
-            color: white;
-            transform: scale(0.95);
-        }
-
         .footer {
-            padding: 12px 15px;
+            padding: 10px;
             background: #f5f5f5;
             border-top: 1px solid #e0e0e0;
             text-align: center;
-            flex-shrink: 0;
         }
 
         .privacy-notice {
-            font-size: 11px;
+            font-size: 10px;
             color: #666;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .emergency-info {
-            font-size: 12px;
+            font-size: 11px;
             color: #d32f2f;
             font-weight: 600;
         }
@@ -347,54 +273,58 @@
 
         .typing-indicator {
             display: none;
-            padding: 12px 18px;
+            padding: 10px 15px;
             background: #e3f2fd;
-            border-radius: 18px;
+            border-radius: 15px;
             border-bottom-left-radius: 4px;
             width: fit-content;
         }
 
         .typing-indicator span {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: #1976d2;
             margin: 0 2px;
             animation: typing 1.4s infinite;
         }
 
-        .typing-indicator span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-indicator span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes typing {
-            0%, 60%, 100% {
-                transform: translateY(0);
-            }
-            30% {
-                transform: translateY(-10px);
-            }
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
         }
 
-        .chat-area::-webkit-scrollbar {
-            width: 6px;
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin: 15px 0;
+            animation: slideIn 0.3s ease;
         }
 
-        .chat-area::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        .quick-button {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .chat-area::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 3px;
+        .quick-button:active {
+            background: #667eea;
+            color: white;
+            transform: scale(0.95);
         }
 
-        /* Modal for viewing saved chats */
         .modal {
             display: none;
             position: fixed;
@@ -409,378 +339,375 @@
             padding: 20px;
         }
 
-        .modal.active {
-            display: flex;
-        }
+        .modal.active { display: flex; }
 
         .modal-content {
             background: white;
             border-radius: 15px;
-            max-width: 600px;
+            max-width: 400px;
             width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
             padding: 20px;
-            position: relative;
+            text-align: center;
         }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .modal-close {
-            background: #f44336;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .saved-conversation {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .saved-conversation h4 {
+        .modal-content h3 {
+            margin-bottom: 12px;
             color: #667eea;
-            margin-bottom: 8px;
         }
 
-        .saved-conversation .timestamp {
-            font-size: 11px;
-            color: #999;
-            margin-bottom: 10px;
+        .modal-content p {
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 14px;
         }
 
-        .saved-conversation .user-msg {
-            background: #c8e6c9;
-            padding: 8px 12px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            color: #388e3c;
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
         }
 
-        .saved-conversation .bot-msg {
-            background: #e3f2fd;
-            padding: 8px 12px;
-            border-radius: 12px;
-            color: #1976d2;
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .modal-btn.confirm {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background: #e0e0e0;
+            color: #666;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="install-banner" id="installBanner">
-            📱 Install this app on your iPad for the best experience!
-            <button onclick="promptInstall()">Install</button>
-            <button onclick="closeInstallBanner()" style="background: transparent; color: #856404; border: 1px solid #856404;">Later</button>
-        </div>
-
         <div class="header">
+            <button class="new-chat-btn" onclick="confirmNewChat()">🔄 New</button>
             <h1>🤝 Student Support Buddy</h1>
-            <p>Your Safe Space to Talk - We're Here to Listen</p>
+            <p>Your Safe Space - We're Here to Listen</p>
         </div>
 
         <div class="chat-area" id="chatArea">
             <div class="message bot">
                 <div class="message-bubble">
-                    Hi there! 👋 I'm your Student Support Buddy. This is a safe space where you can talk about anything that's bothering you - bullying, peer pressure, family issues, or just feeling overwhelmed. I'm here to listen and help. What would you like to talk about today?
+                    Hey there! 👋 I'm your Student Support Buddy. Before we start, what grade are you in? This helps me understand you better.
                 </div>
             </div>
             <div class="typing-indicator" id="typingIndicator">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
 
         <div class="sample-questions">
             <h3>💭 Not sure what to say? Try these:</h3>
             <div class="questions-grid">
-                <div class="sample-question" onclick="askQuestion('I am being bullied at school and don\'t know what to do')">
+                <div class="sample-question" onclick="askQuestion('I am being bullied')">
                     😔 I'm being bullied
                 </div>
-                <div class="sample-question" onclick="askQuestion('My friends are pressuring me to do something I don\'t want to do')">
+                <div class="sample-question" onclick="askQuestion('Feeling peer pressure')">
                     😰 Feeling peer pressure
                 </div>
-                <div class="sample-question" onclick="askQuestion('I feel lonely and have no friends to talk to')">
+                <div class="sample-question" onclick="askQuestion('I feel lonely')">
                     😢 Feeling lonely
                 </div>
-                <div class="sample-question" onclick="askQuestion('I am stressed about my studies and exams')">
+                <div class="sample-question" onclick="askQuestion('Stressed about studies')">
                     📚 Stressed about studies
                 </div>
-                <div class="sample-question" onclick="askQuestion('My parents are fighting a lot and it makes me sad')">
+                <div class="sample-question" onclick="askQuestion('Family problems')">
                     🏠 Family problems
                 </div>
                 <div class="sample-question" onclick="askQuestion('Someone is spreading rumors about me')">
-                    😠 Dealing with rumors
+                    🤫 Dealing with rumors
+                </div>
+                <div class="sample-question" onclick="askQuestion('They exclude me every day')">
+                    😞 Being excluded
+                </div>
+                <div class="sample-question" onclick="askQuestion('Someone posted mean things online')">
+                    📱 Cyberbullying
+                </div>
+                <div class="sample-question" onclick="askQuestion('I am not safe right now')">
+                    🚨 Not safe
                 </div>
             </div>
         </div>
 
         <div class="input-area">
             <div class="input-group">
-                <input type="text" id="userInput" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
-                <button class="btn btn-send" onclick="sendMessage()">Send</button>
+                <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+                <button class="btn btn-send" id="sendBtn" onclick="sendMessage()">Send</button>
             </div>
         </div>
 
         <div class="voice-controls">
-            <button class="btn-voice" onclick="speakMessage()" id="speakBtn">
-                🔊 Speak
-            </button>
-            <button class="btn-voice" onclick="stopSpeaking()" id="stopBtn">
-                ⏹️ Stop
-            </button>
-            <button class="btn-voice" onclick="repeatMessage()" id="repeatBtn">
-                🔁 Repeat
-            </button>
-        </div>
-
-        <div class="storage-info">
-            💾 Your conversations are automatically saved in your browser
-            <div class="storage-buttons">
-                <button class="btn-storage" onclick="viewSavedChats()">📖 View</button>
-                <button class="btn-storage" onclick="clearSavedChats()">🗑️ Clear</button>
-                <button class="btn-storage" onclick="downloadChats()">⬇️ Download</button>
-            </div>
+            <button class="btn-voice" onclick="speakMessage()" id="speakBtn">🔊 Speak</button>
+            <button class="btn-voice" onclick="stopSpeaking()">⏹️ Stop</button>
+            <button class="btn-voice" onclick="repeatMessage()">🔁 Repeat</button>
         </div>
 
         <div class="footer">
-            <div class="privacy-notice">
-                🔒 Your conversations are completely private and confidential
-            </div>
+            <div class="privacy-notice">🔒 Private & Confidential</div>
             <div class="emergency-info">
-                Need urgent help? Call <a href="tel:1098" class="emergency-link">CHILDLINE 1098</a> (India) - Free & Available 24/7
+                Emergency: <a href="tel:1098" class="emergency-link">CHILDLINE 1098</a>
             </div>
         </div>
     </div>
 
-    <!-- Modal for viewing saved chats -->
-    <div class="modal" id="savedChatsModal">
+    <div class="modal" id="newChatModal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>📚 Your Saved Conversations</h3>
-                <button class="modal-close" onclick="closeModal()">×</button>
+            <h3>Start New Chat?</h3>
+            <p>This will clear your current conversation. Continue?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" onclick="startNewChat()">Yes</button>
+                <button class="modal-btn cancel" onclick="closeNewChatModal()">Cancel</button>
             </div>
-            <div id="savedChatsList"></div>
         </div>
     </div>
 
     <script>
         let lastBotMessage = '';
         let currentSpeech = null;
-        let conversationHistory = [];
-        let deferredPrompt;
-
-        // Load saved conversations when page loads
-        function loadConversationHistory() {
-            const saved = localStorage.getItem('studentSupportChats');
-            if (saved) {
-                conversationHistory = JSON.parse(saved);
-            }
-        }
-
-        // Save conversation to localStorage
-        function saveConversation(userMessage, botResponse) {
-            const timestamp = new Date().toISOString();
-            conversationHistory.push({
-                timestamp: timestamp,
-                user: userMessage,
-                bot: botResponse,
-                date: new Date().toLocaleString()
-            });
-            localStorage.setItem('studentSupportChats', JSON.stringify(conversationHistory));
-        }
-
-        // PWA Installation
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installBanner').style.display = 'block';
-        });
-
-        function promptInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('App installed');
-                    }
-                    deferredPrompt = null;
-                    closeInstallBanner();
-                });
-            } else {
-                // For iOS Safari
-                alert('To install on iPad:\n\n1. Tap the Share button (square with arrow)\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add" in the top right');
-            }
-        }
-
-        function closeInstallBanner() {
-            document.getElementById('installBanner').style.display = 'none';
-        }
-
-        // Function to handle clicking sample questions
-        function askQuestion(question) {
-            document.getElementById('userInput').value = question;
-            sendMessage();
-        }
-
-        // View all saved chats in modal
-        function viewSavedChats() {
-            if (conversationHistory.length === 0) {
-                alert('No saved conversations yet. Start chatting to save your conversations!');
-                return;
-            }
-
-            const modal = document.getElementById('savedChatsModal');
-            const listDiv = document.getElementById('savedChatsList');
-            
-            let html = '';
-            conversationHistory.forEach((chat, index) => {
-                html += `
-                    <div class="saved-conversation">
-                        <h4>💬 Conversation ${index + 1}</h4>
-                        <div class="timestamp">📅 ${chat.date}</div>
-                        <div class="user-msg"><strong>You:</strong> ${chat.user}</div>
-                        <div class="bot-msg"><strong>Support Buddy:</strong> ${chat.bot}</div>
-                    </div>
-                `;
-            });
-            
-            listDiv.innerHTML = html;
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('savedChatsModal').classList.remove('active');
-        }
-
-        // Clear all saved chats
-        function clearSavedChats() {
-            if (confirm('Are you sure you want to clear all saved conversations? This cannot be undone.')) {
-                localStorage.removeItem('studentSupportChats');
-                conversationHistory = [];
-                alert('✅ All saved conversations have been cleared!');
-            }
-        }
-
-        // Download chats as a text file
-        function downloadChats() {
-            if (conversationHistory.length === 0) {
-                alert('No conversations to download yet!');
-                return;
-            }
-
-            let textContent = 'STUDENT SUPPORT BUDDY - CONVERSATION HISTORY\n';
-            textContent += '='.repeat(60) + '\n\n';
-            
-            conversationHistory.forEach((chat, index) => {
-                textContent += `Conversation ${index + 1}\n`;
-                textContent += `Date: ${chat.date}\n`;
-                textContent += `\nYou: ${chat.user}\n`;
-                textContent += `Support Buddy: ${chat.bot}\n`;
-                textContent += '-'.repeat(60) + '\n\n';
-            });
-
-            const blob = new Blob([textContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `support-buddy-conversations-${new Date().toISOString().split('T')[0]}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // Chatbot responses database
-        const botResponses = {
-            greetings: [
-                "Hello! I'm glad you're here. Remember, it takes courage to talk about your feelings. How can I support you today?",
-                "Hi! Welcome to your safe space. Whatever you're going through, you don't have to face it alone. What's on your mind?"
-            ],
-            bullying: [
-                "I'm really sorry you're experiencing bullying. That must be really hard. Remember: 1) It's NOT your fault 2) You deserve to be treated with respect 3) Telling a trusted adult (teacher, parent, counselor) is not 'snitching' - it's protecting yourself. Would you like to talk about what's happening?",
-                "Bullying is never okay, and you don't deserve to be treated that way. Here's what you can do: Talk to a trusted adult immediately, document what's happening (dates, times, what happened), stay near friends or adults, and remember that asking for help is a sign of strength, not weakness."
-            ],
-            family: [
-                "Family problems can be really tough, especially when you feel caught in the middle. It's okay to have complicated feelings about your family. Remember that you can love your family and still feel hurt or frustrated by them. Would you like to share more about what's going on?",
-                "It sounds like things are difficult at home right now. Here are some things that might help: 1) Find a trusted adult outside the family to talk to (teacher, counselor, friend's parent) 2) Remember that family conflicts are not your fault 3) Focus on things you can control, like your own reactions and seeking support. You're not alone in this."
-            ],
-            pressure: [
-                "Feeling pressured by friends or classmates is really common, but that doesn't make it easier. Here's the truth: Real friends respect your boundaries. It's okay to say 'no' to things that make you uncomfortable. Your safety and well-being are more important than fitting in. What kind of pressure are you facing?",
-                "Peer pressure can make you feel like you have to do things you don't want to do. Remember: 1) You have the right to make your own choices 2) True friends won't abandon you for saying 'no' 3) It's okay to walk away from situations that feel wrong 4) Talk to an adult you trust about what you're experiencing."
-            ],
-            anxiety: [
-                "Feeling anxious or stressed is very common, especially for students. Here are some things that can help: 1) Take deep breaths (breathe in for 4, hold for 4, out for 4) 2) Talk to someone you trust 3) Break big problems into smaller steps 4) Remember that it's okay to not be perfect. What's making you feel anxious?",
-                "Anxiety can feel overwhelming, but there are ways to manage it. Try these: Take a short walk, listen to calming music, write down your worries, talk to a friend or adult, and remember that many people feel the same way. If anxiety is affecting your daily life, please talk to a school counselor or doctor."
-            ],
-            loneliness: [
-                "Feeling lonely is really painful, and I'm sorry you're going through this. Remember: 1) Being alone and feeling lonely are different - you can feel lonely even in a crowd 2) This feeling won't last forever 3) There are people who care about you, even if it doesn't feel that way right now. Would you like to talk about joining a club or activity where you might meet people with similar interests?",
-                "Loneliness is tough, but there are ways to connect with others: 1) Join a school club or sports team 2) Volunteer for a cause you care about 3) Say 'hi' to someone new each day 4) Reconnect with an old friend 5) Talk to a counselor about making connections. You deserve to have good friends and feel connected."
-            ],
-            selfharm: [
-                "I'm really concerned about what you're sharing. If you're thinking about hurting yourself, please talk to a trusted adult RIGHT NOW - a parent, teacher, school counselor, or call CHILDLINE 1098. Your life is precious and valuable. There are people who want to help you through this difficult time. You don't have to face this alone.",
-                "What you're feeling is serious, and you deserve professional help immediately. Please reach out to: 1) CHILDLINE 1098 (free, confidential, 24/7) 2) Your school counselor 3) A parent or trusted adult 4) A doctor or mental health professional. These feelings can get better with the right support, but you need help from trained professionals. Please reach out today."
-            ],
-            default: [
-                "Thank you for sharing that with me. It sounds like you're going through something difficult. Can you tell me more about how this makes you feel? Remember, expressing your feelings is an important first step.",
-                "I hear you, and your feelings are valid. It's brave of you to talk about this. Would you like to explore some ways to handle this situation, or would you prefer to talk more about how you're feeling?",
-                "That sounds challenging. Remember, everyone faces difficulties, and it's okay to ask for help. What do you think would help you feel better about this situation?"
-            ],
-            positive: [
-                "That's wonderful! It's great to hear something positive. Remember to celebrate your wins, no matter how small they might seem. What made you feel this way?",
-                "I'm so glad to hear that! Positive moments are important to acknowledge. Keep focusing on the things that make you feel good!"
-            ]
+        let responseCount = 4;
+        let conversationTurns = 0;
+        let hasShownHelpMessage = false;
+        let hasTalkedToAdult = false;
+        let problemDiscussionStarted = false;
+        let userContext = {
+            ageGroup: null,
+            bullyingType: null,
+            hasBasicInfo: false
         };
 
-        function detectCategory(message) {
+        // Top 10 tuned responses from dataset
+        const knowledgeBase = {
+            'feeling_hurt': {
+                keywords: ['making fun', 'laugh at me', 'mock', 'tease', 'call me', 'ugly', 'hurt'],
+                response: "I'm sorry you're going through this. You don't deserve to be treated that way. I'm here with you. What's been happening, and when did it start?",
+                tone: 'warm',
+                followUp: 'understanding'
+            },
+            'exclusion': {
+                keywords: ['exclude', 'left out', 'ignore', 'don\'t invite', 'never let me', 'move away', 'leave me out'],
+                response: "If something is repeated, targeted, and makes you feel unsafe or hurt, it may be bullying. Even if they call it a 'joke,' your feelings matter. Can you tell me more about how often this happens?",
+                tone: 'supportive',
+                followUp: 'frequency'
+            },
+            'cyberbullying': {
+                keywords: ['online', 'posted', 'comments', 'social media', 'instagram', 'whatsapp', 'mean messages', 'dm'],
+                response: "That's not okay, and you don't deserve it. First, don't respond to them. If you can, take screenshots to save the evidence, then block and report the account. It's also important to tell a trusted adult about this.",
+                tone: 'practical',
+                followUp: 'evidence'
+            },
+            'feeling_anxious': {
+                keywords: ['anxious', 'nervous', 'worried', 'stomach', 'panic', 'scared'],
+                response: "Take a deep breath with me - you're safe right now. It's completely normal to feel anxious when dealing with bullying. Let's take this one step at a time. What's making you feel most anxious?",
+                tone: 'calm',
+                followUp: 'grounding'
+            },
+            'calm_down': {
+                keywords: ['calm down', 'can\'t breathe', 'shaking', 'heart racing', 'panicking'],
+                response: "Let's take one small step together. Try this: breathe in slowly for 4 counts, hold for 2, then breathe out for 6 counts. Do this a few times. You're going to be okay. Once you feel a bit calmer, we can talk about what to do next.",
+                tone: 'coaching',
+                followUp: 'breathing'
+            },
+            'reporting': {
+                keywords: ['tell teacher', 'tell parents', 'report', 'counselor', 'how do i tell'],
+                response: "Reaching out for help is a brave and strong move. A teacher, school counselor, or parent can help you stay safe and take real action. If you want, I can help you plan what to say and what details to share with them.",
+                tone: 'empowering',
+                followUp: 'planning'
+            },
+            'physical': {
+                keywords: ['push', 'hit', 'kick', 'punch', 'shove', 'hurt me', 'physical'],
+                response: "Physical bullying is serious and not okay. If someone is hurting you physically, this needs to stop. Have you told any adult about this? A teacher or parent needs to know so they can keep you safe.",
+                tone: 'serious',
+                followUp: 'safety_check'
+            },
+            'bystander': {
+                keywords: ['saw bullying', 'witnessed', 'saw someone', 'friend is bullied', 'someone else'],
+                response: "Thanks for caring - that shows real courage. The safest thing is to get an adult's help right away. Stay with the person being targeted if you can. You're doing the right thing by wanting to help.",
+                tone: 'encouraging',
+                followUp: 'action_steps'
+            },
+            'rumors': {
+                keywords: ['rumor', 'spreading', 'gossip', 'saying things', 'not true', 'lies'],
+                response: "Rumors can hurt deeply, and I'm sorry this is happening to you. Even if they call it 'drama' or a 'joke,' your feelings matter. Can you tell me who is spreading these rumors and how it's affecting you?",
+                tone: 'validating',
+                followUp: 'impact'
+            },
+            'immediate_danger': {
+                keywords: ['not safe', 'danger', 'right now', 'scared right now', 'help now', 'emergency'],
+                response: "I'm really glad you told me. Your safety is the most important thing. If you are in immediate danger RIGHT NOW, please find a trusted adult nearby or call emergency services immediately. Can you get to a safe place?",
+                tone: 'urgent',
+                followUp: 'immediate_action',
+                escalation: true
+            }
+        };
+
+        function detectIntent(message) {
             const lowerMessage = message.toLowerCase();
             
-            if (lowerMessage.includes('bully') || lowerMessage.includes('bullied') || lowerMessage.includes('tease') || lowerMessage.includes('pick on')) {
-                return 'bullying';
-            }
-            if (lowerMessage.includes('family') || lowerMessage.includes('parent') || lowerMessage.includes('mom') || lowerMessage.includes('dad') || lowerMessage.includes('brother') || lowerMessage.includes('sister')) {
-                return 'family';
-            }
-            if (lowerMessage.includes('pressure') || lowerMessage.includes('force') || lowerMessage.includes('peer')) {
-                return 'pressure';
-            }
-            if (lowerMessage.includes('anxious') || lowerMessage.includes('anxiety') || lowerMessage.includes('stress') || lowerMessage.includes('worried') || lowerMessage.includes('nervous')) {
-                return 'anxiety';
-            }
-            if (lowerMessage.includes('lonely') || lowerMessage.includes('alone') || lowerMessage.includes('no friends') || lowerMessage.includes('isolated')) {
-                return 'loneliness';
-            }
-            if (lowerMessage.includes('hurt myself') || lowerMessage.includes('self harm') || lowerMessage.includes('suicide') || lowerMessage.includes('kill myself') || lowerMessage.includes('end it all')) {
-                return 'selfharm';
-            }
-            if (lowerMessage.includes('hello') || lowerMessage.includes('hi ') || lowerMessage.includes('hey')) {
-                return 'greetings';
-            }
-            if (lowerMessage.includes('happy') || lowerMessage.includes('great') || lowerMessage.includes('good') || lowerMessage.includes('better')) {
-                return 'positive';
+            // Check if gathering context
+            if (!userContext.hasBasicInfo) {
+                if (!userContext.ageGroup) {
+                    if (lowerMessage.match(/\b([1-9]|1[0-2])(th|st|nd|rd)?\s*(grade|class)?\b/i) || 
+                        lowerMessage.match(/\b(elementary|middle|high|primary|secondary)\b/i)) {
+                        userContext.ageGroup = 'collected';
+                        return 'age_collected';
+                    }
+                }
+                
+                if (userContext.ageGroup && !userContext.bullyingType) {
+                    if (lowerMessage.match(/\b(online|cyber|social media|internet|post)\b/i)) {
+                        userContext.bullyingType = 'cyber';
+                        userContext.hasBasicInfo = true;
+                        return 'context_complete_cyber';
+                    } else if (lowerMessage.match(/\b(school|class|physical|person)\b/i)) {
+                        userContext.bullyingType = 'physical';
+                        userContext.hasBasicInfo = true;
+                        return 'context_complete_physical';
+                    } else if (lowerMessage.match(/\bboth\b/i)) {
+                        userContext.bullyingType = 'both';
+                        userContext.hasBasicInfo = true;
+                        return 'context_complete_both';
+                    }
+                    return 'type_collecting';
+                }
             }
             
-            return 'default';
+            // Match to knowledge base
+            let bestMatch = null;
+            let maxMatches = 0;
+
+            for (const [intent, data] of Object.entries(knowledgeBase)) {
+                let matches = 0;
+                for (const keyword of data.keywords) {
+                    if (lowerMessage.includes(keyword)) {
+                        matches++;
+                    }
+                }
+                if (matches > maxMatches) {
+                    maxMatches = matches;
+                    bestMatch = intent;
+                }
+            }
+
+            return bestMatch || 'general';
         }
 
         function getBotResponse(userMessage) {
-            const category = detectCategory(userMessage);
-            const responses = botResponses[category];
-            return responses[Math.floor(Math.random() * responses.length)];
+            const intent = detectIntent(userMessage);
+            
+            // Context gathering
+            if (intent === 'age_collected') {
+                return {
+                    response: "Thank you for sharing! Now, where is the bullying happening - at school, online, or both?",
+                    escalation: false,
+                    showContextButtons: true,
+                    isContextGathering: true
+                };
+            }
+            
+            if (intent === 'type_collecting') {
+                return {
+                    response: "Just to understand better - is this happening at school, online (social media, messages), or both?",
+                    escalation: false,
+                    showContextButtons: true,
+                    isContextGathering: true
+                };
+            }
+            
+            if (intent.startsWith('context_complete')) {
+                problemDiscussionStarted = true;
+                responseCount = 4;
+                return {
+                    response: "Thank you for trusting me with this. I understand this must be really difficult. Take a deep breath - you're safe here with me. Can you tell me what exactly has been happening? Share as much or as little as you're comfortable with.",
+                    escalation: false,
+                    isContextGathering: false
+                };
+            }
+            
+            // If sharing problem without context, acknowledge then ask
+            if (!userContext.hasBasicInfo && intent !== 'general' && !knowledgeBase[intent]?.escalation) {
+                const baseResponse = knowledgeBase[intent]?.response || "I'm sorry you're going through this.";
+                return {
+                    response: baseResponse + "\n\nBefore we continue, what grade are you in? This helps me support you better.",
+                    escalation: false,
+                    showGradeButtons: true,
+                    isContextGathering: true
+                };
+            }
+            
+            // Crisis escalation
+            if (knowledgeBase[intent]?.escalation) {
+                return {
+                    response: knowledgeBase[intent].response,
+                    escalation: true,
+                    isContextGathering: false
+                };
+            }
+            
+            // Normal problem discussion
+            if (intent === 'general') {
+                return {
+                    response: "I'm listening. Can you tell me more about what's happening?",
+                    escalation: false,
+                    isContextGathering: false
+                };
+            }
+            
+            return {
+                response: knowledgeBase[intent]?.response || "I hear you. Tell me more.",
+                escalation: false,
+                isContextGathering: false
+            };
+        }
+
+        function checkAdultConversation() {
+            if (hasShownHelpMessage) return;
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot';
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    Take a moment and breathe - you're doing great by reaching out. 🌟
+                    <br><br>
+                    Now, I want to ask: have you been able to talk to any trusted adults about this - like your parents, a teacher, or school counselor? They can take real steps to help you and make things better.
+                </div>
+            `;
+            
+            const chatArea = document.getElementById('chatArea');
+            chatArea.insertBefore(messageDiv, document.getElementById('typingIndicator'));
+            chatArea.scrollTop = chatArea.scrollHeight;
+            
+            lastBotMessage = "Take a moment and breathe - you're doing great by reaching out. Now, I want to ask: have you been able to talk to any trusted adults about this - like your parents, a teacher, or school counselor? They can take real steps to help you and make things better.";
+            hasShownHelpMessage = true;
+        }
+
+        function suggestHelpline() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot';
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    I understand it can be scary to talk to adults sometimes. That's okay - you're not alone in feeling that way.
+                    <br><br>
+                    If you don't have an adult you feel comfortable talking to right now, there's another option: you can reach out to <a href="tel:1098">CHILDLINE 1098</a>. They're trained counselors who are available 24/7, completely confidential, and they're there specifically to help students like you.
+                    <br><br>
+                    Is there anything else you'd like to talk about? I'm still here for you. 💙
+                </div>
+            `;
+            
+            const chatArea = document.getElementById('chatArea');
+            chatArea.insertBefore(messageDiv, document.getElementById('typingIndicator'));
+            chatArea.scrollTop = chatArea.scrollHeight;
+            
+            lastBotMessage = "I understand it can be scary to talk to adults sometimes. That's okay. If you don't have an adult you feel comfortable talking to right now, you can reach out to CHILDLINE 1098. They're available 24/7 and can help. Is there anything else you'd like to talk about? I'm still here for you.";
         }
 
         function addMessage(message, isUser) {
@@ -790,15 +717,14 @@
             
             const bubbleDiv = document.createElement('div');
             bubbleDiv.className = 'message-bubble';
-            bubbleDiv.textContent = message;
+            bubbleDiv.innerHTML = message;
             
             messageDiv.appendChild(bubbleDiv);
             chatArea.insertBefore(messageDiv, document.getElementById('typingIndicator'));
-            
             chatArea.scrollTop = chatArea.scrollHeight;
             
             if (!isUser) {
-                lastBotMessage = message;
+                lastBotMessage = message.replace(/<[^>]*>/g, '');
             }
         }
 
@@ -811,55 +737,158 @@
             document.getElementById('typingIndicator').style.display = 'none';
         }
 
+        function showGradeButtons_func() {
+            const chatArea = document.getElementById('chatArea');
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'quick-buttons';
+            buttonsDiv.innerHTML = `
+                <div class="quick-button" onclick="quickReply('Elementary school')">📚 Elementary (1-4)</div>
+                <div class="quick-button" onclick="quickReply('6th grade')">📖 Middle School (5-8)</div>
+                <div class="quick-button" onclick="quickReply('High school')">🎓 High School (9-12)</div>
+            `;
+            chatArea.insertBefore(buttonsDiv, document.getElementById('typingIndicator'));
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function showContextButtons_func() {
+            const chatArea = document.getElementById('chatArea');
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'quick-buttons';
+            buttonsDiv.innerHTML = `
+                <div class="quick-button" onclick="quickReply('At school')">🏫 At School</div>
+                <div class="quick-button" onclick="quickReply('Online')">📱 Online</div>
+                <div class="quick-button" onclick="quickReply('Both')">🌐 Both</div>
+            `;
+            chatArea.insertBefore(buttonsDiv, document.getElementById('typingIndicator'));
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function quickReply(message) {
+            const buttons = document.querySelectorAll('.quick-buttons');
+            buttons.forEach(btn => btn.remove());
+            document.getElementById('userInput').value = message;
+            sendMessage();
+        }
+
         function sendMessage() {
             const input = document.getElementById('userInput');
             const message = input.value.trim();
             
             if (message === '') return;
             
-            // Add user message
             addMessage(message, true);
             input.value = '';
             
-            // Show typing indicator
+            // Check if user mentioned talking to adults
+            const lowerMsg = message.toLowerCase();
+            if (hasShownHelpMessage && !hasTalkedToAdult) {
+                if (lowerMsg.match(/\b(no|haven't|didn't|can't|won't|not yet|nobody|afraid)\b/i)) {
+                    hasTalkedToAdult = false;
+                    showTyping();
+                    setTimeout(() => {
+                        hideTyping();
+                        suggestHelpline();
+                    }, 1000);
+                    return;
+                } else if (lowerMsg.match(/\b(yes|talked|told|spoke|shared|will)\b/i)) {
+                    hasTalkedToAdult = true;
+                    showTyping();
+                    setTimeout(() => {
+                        hideTyping();
+                        addMessage("That's wonderful! Having adult support is so important. They can help make sure you're safe and that action is taken. How did it go when you talked to them?", false);
+                    }, 1000);
+                    return;
+                }
+            }
+            
             showTyping();
             
-            // Simulate bot thinking time
             setTimeout(() => {
                 hideTyping();
-                const botResponse = getBotResponse(message);
-                addMessage(botResponse, false);
                 
-                // Save this conversation
-                saveConversation(message, botResponse);
-            }, 1000 + Math.random() * 1000);
+                const { response, escalation, showGradeButtons, showContextButtons, isContextGathering } = getBotResponse(message);
+                addMessage(response, false);
+                
+                if (showGradeButtons) {
+                    setTimeout(() => showGradeButtons_func(), 500);
+                } else if (showContextButtons) {
+                    setTimeout(() => showContextButtons_func(), 500);
+                }
+                
+                if (escalation) {
+                    setTimeout(() => suggestHelpline(), 1000);
+                    return;
+                }
+                
+                // Count only problem discussion responses
+                if (problemDiscussionStarted && !isContextGathering) {
+                    responseCount--;
+                    conversationTurns++;
+                }
+                
+                // After 4 problem responses, ask about talking to adults
+                if (problemDiscussionStarted && responseCount === 0 && !hasShownHelpMessage) {
+                    setTimeout(() => checkAdultConversation(), 1500);
+                }
+            }, 800 + Math.random() * 700);
         }
 
         function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+            if (event.key === 'Enter') sendMessage();
+        }
+
+        function askQuestion(question) {
+            document.getElementById('userInput').value = question;
+            sendMessage();
+        }
+
+        function confirmNewChat() {
+            document.getElementById('newChatModal').classList.add('active');
+        }
+
+        function closeNewChatModal() {
+            document.getElementById('newChatModal').classList.remove('active');
+        }
+
+        function startNewChat() {
+            const chatArea = document.getElementById('chatArea');
+            chatArea.innerHTML = `
+                <div class="message bot">
+                    <div class="message-bubble">
+                        Hey there! 👋 I'm your Student Support Buddy. Before we start, what grade are you in? This helps me understand you better.
+                    </div>
+                </div>
+                <div class="typing-indicator" id="typingIndicator">
+                    <span></span><span></span><span></span>
+                </div>
+            `;
+            
+            responseCount = 4;
+            conversationTurns = 0;
+            hasShownHelpMessage = false;
+            hasTalkedToAdult = false;
+            problemDiscussionStarted = false;
+            lastBotMessage = '';
+            userContext = {
+                ageGroup: null,
+                bullyingType: null,
+                hasBasicInfo: false
+            };
+            
+            closeNewChatModal();
         }
 
         function speakMessage() {
             if (lastBotMessage === '') {
-                alert('No message to speak yet! Start a conversation first.');
+                alert('No message to speak yet!');
                 return;
             }
             
             stopSpeaking();
-            
             currentSpeech = new SpeechSynthesisUtterance(lastBotMessage);
             currentSpeech.rate = 0.9;
-            currentSpeech.pitch = 1;
-            currentSpeech.volume = 1;
-            
             document.getElementById('speakBtn').classList.add('active');
-            
-            currentSpeech.onend = function() {
-                document.getElementById('speakBtn').classList.remove('active');
-            };
-            
+            currentSpeech.onend = () => document.getElementById('speakBtn').classList.remove('active');
             window.speechSynthesis.speak(currentSpeech);
         }
 
@@ -872,22 +901,7 @@
             speakMessage();
         }
 
-        // Focus on input when page loads and load conversation history
-        window.onload = function() {
-            loadConversationHistory();
-            
-            // Show install prompt on iOS after 30 seconds
-            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
-                setTimeout(() => {
-                    document.getElementById('installBanner').style.display = 'block';
-                }, 30000);
-            }
-        };
-
-        // Prevent zoom on iOS
-        document.addEventListener('gesturestart', function (e) {
-            e.preventDefault();
-        });
+        document.addEventListener('gesturestart', e => e.preventDefault());
     </script>
 </body>
 </html>
